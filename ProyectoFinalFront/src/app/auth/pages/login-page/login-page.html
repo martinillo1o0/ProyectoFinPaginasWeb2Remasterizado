@@ -1,0 +1,7 @@
+<div class="mx-auto max-w-md py-12"><h1 class="mb-2 text-3xl font-bold">Iniciar sesión</h1><p class="mb-8 opacity-70">Accede a tu cuenta de Marti Music.</p>
+@if (errorMessage()) { <div class="alert alert-error mb-5">{{ errorMessage() }}</div> }
+<form class="space-y-4" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <label class="form-control"><span class="label-text">Correo electrónico</span><input class="input input-bordered w-full" type="email" formControlName="email" /> @if (form.controls.email.touched && form.controls.email.invalid) { <span class="label-text-alt text-error">Introduce un correo válido.</span> }</label>
+  <label class="form-control"><span class="label-text">Contraseña</span><input class="input input-bordered w-full" type="password" formControlName="password" /> @if (form.controls.password.touched && form.controls.password.invalid) { <span class="label-text-alt text-error">Mínimo 6 caracteres.</span> }</label>
+  <button class="btn btn-secondary w-full" type="submit" [disabled]="submitting()">@if (submitting()) { <span class="loading loading-spinner"></span> } Iniciar sesión</button>
+</form><p class="mt-6 text-center">¿No tienes cuenta? <a class="link link-secondary" routerLink="/auth/register">Regístrate</a></p></div>

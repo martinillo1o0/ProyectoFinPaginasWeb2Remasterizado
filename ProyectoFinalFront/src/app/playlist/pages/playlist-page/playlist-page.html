@@ -1,0 +1,58 @@
+<section class="py-8">
+  <div class="mb-8">
+    <p class="text-sm uppercase tracking-[0.25em] text-secondary">Tu selección</p>
+    <h1 class="text-3xl font-bold">Crear playlist</h1>
+    <p class="mt-2 opacity-65">{{ playlist.totalSongs() }} canciones · {{ durationLabel() }}</p>
+  </div>
+
+  @if (createdPlaylist(); as created) {
+    <div class="alert alert-success mb-6">Playlist “{{ created.name }}” creada correctamente.</div>
+  }
+  @if (errorMessage()) { <div class="alert alert-error mb-6">{{ errorMessage() }}</div> }
+
+  @if (playlist.songs().length === 0) {
+    <div class="rounded-2xl bg-base-200 py-16 text-center">
+      <p class="text-lg opacity-70">Todavía no agregas canciones.</p>
+      <a class="btn btn-secondary mt-5" routerLink="/">Explorar música</a>
+    </div>
+  } @else {
+    <div class="grid gap-8 lg:grid-cols-[1.4fr_0.8fr]">
+      <div class="space-y-3">
+        @for (song of playlist.songs(); track song.id; let i = $index) {
+          <article class="flex items-center gap-4 rounded-xl bg-base-100 p-3 shadow-sm">
+            <span class="w-6 text-center text-sm opacity-50">{{ i + 1 }}</span>
+            <img class="h-16 w-16 rounded-lg object-cover" [src]="song.coverUrl | songCover" [alt]="song.title" />
+            <div class="min-w-0 flex-1">
+              <h2 class="truncate font-semibold">{{ song.title }}</h2>
+              <p class="truncate text-sm opacity-65">{{ song.artist }} · {{ song.album }}</p>
+            </div>
+            <button class="btn btn-ghost btn-sm text-error" (click)="playlist.remove(song.id)">Quitar</button>
+          </article>
+        }
+      </div>
+
+      <aside class="card bg-base-200 shadow-sm">
+        <div class="card-body">
+          <h2 class="card-title">Datos de la playlist</h2>
+          <label class="form-control">
+            <span class="label-text">Nombre</span>
+            <input class="input input-bordered" [value]="name()" (input)="name.set($any($event.target).value)" maxlength="160" />
+          </label>
+          <label class="form-control">
+            <span class="label-text">Descripción</span>
+            <textarea class="textarea textarea-bordered" [value]="description()" (input)="description.set($any($event.target).value)"></textarea>
+          </label>
+          <label class="label cursor-pointer justify-start gap-3">
+            <input type="checkbox" class="toggle toggle-secondary" [checked]="isPublic()" (change)="isPublic.set($any($event.target).checked)" />
+            <span class="label-text">Playlist pública</span>
+          </label>
+          <button class="btn btn-secondary mt-3" [disabled]="submitting() || !name().trim()" (click)="createPlaylist()">
+            @if (submitting()) { <span class="loading loading-spinner"></span> }
+            Guardar playlist
+          </button>
+          <button class="btn btn-ghost" (click)="playlist.clear()">Vaciar selección</button>
+        </div>
+      </aside>
+    </div>
+  }
+</section>

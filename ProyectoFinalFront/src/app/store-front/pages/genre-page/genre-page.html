@@ -1,0 +1,24 @@
+@if (!validGenre()) {
+  <div class="py-16 text-center"><h1 class="text-3xl font-bold">Género no encontrado</h1><a class="btn btn-secondary mt-5" routerLink="/">Volver a la música</a></div>
+} @else {
+  <div class="mb-7">
+    @switch (genre()) {
+      @case ('pop') { <h1 class="text-4xl font-bold">Pop</h1><p class="opacity-65">Melodías contemporáneas y pegajosas.</p> }
+      @case ('rock') { <h1 class="text-4xl font-bold">Rock</h1><p class="opacity-65">Guitarras, energía y actitud.</p> }
+      @case ('hip-hop') { <h1 class="text-4xl font-bold">Hip-Hop</h1><p class="opacity-65">Ritmo, rimas y producción urbana.</p> }
+      @case ('electronica') { <h1 class="text-4xl font-bold">Electrónica</h1><p class="opacity-65">Sintetizadores, beats y atmósferas digitales.</p> }
+      @case ('regional-mexicano') { <h1 class="text-4xl font-bold">Regional Mexicano</h1><p class="opacity-65">Tradición musical mexicana con una mirada actual.</p> }
+      @default { <h1 class="text-4xl font-bold">Música</h1> }
+    }
+  </div>
+  @if (songResource.isLoading()) {
+    <div class="flex justify-center py-16"><span class="loading loading-spinner loading-lg"></span></div>
+  } @else if (songResource.error()) {
+    <div class="alert alert-error">No pudimos cargar este género.</div>
+  } @else {
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      @for (song of songResource.value()?.songs ?? []; track song.id) { <song-card [song]="song" /> }
+      @empty { <p>No hay canciones disponibles en este género.</p> }
+    </div>
+  }
+}

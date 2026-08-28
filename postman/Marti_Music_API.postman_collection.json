@@ -1,0 +1,66 @@
+{
+  "info": {
+    "name": "Marti Music API",
+    "description": "Colección principal del proyecto final Marti Music.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "authToken", "value": "" },
+    { "key": "songId", "value": "" },
+    { "key": "genreId", "value": "" },
+    { "key": "playlistId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        { "name": "Register", "request": { "method": "POST", "header": [{"key":"Content-Type","value":"application/json"}], "body": {"mode":"raw","raw":"{\n  \"email\": \"postman@martimusic.com\",\n  \"password\": \"Prueba123\",\n  \"fullName\": \"Usuario Postman\"\n}"}, "url": "{{baseUrl}}/auth/register" } },
+        { "name": "Login admin", "request": { "method": "POST", "header": [{"key":"Content-Type","value":"application/json"}], "body": {"mode":"raw","raw":"{\n  \"email\": \"admin@martimusic.com\",\n  \"password\": \"Admin123\"\n}"}, "url": "{{baseUrl}}/auth/login" } }
+      ]
+    },
+    {
+      "name": "Songs",
+      "item": [
+        { "name": "List songs", "request": { "method": "GET", "url": "{{baseUrl}}/songs?limit=10&offset=0" } },
+        { "name": "Songs by genre", "request": { "method": "GET", "url": "{{baseUrl}}/songs?genre=rock&limit=10&offset=0" } },
+        { "name": "Get song", "request": { "method": "GET", "url": "{{baseUrl}}/songs/{{songId}}" } },
+        { "name": "Create song", "request": { "method": "POST", "auth": {"type":"bearer","bearer":[{"key":"token","value":"{{authToken}}","type":"string"}]}, "header": [{"key":"Content-Type","value":"application/json"}], "body": {"mode":"raw","raw":"{\n  \"title\": \"Canción Postman\",\n  \"artist\": \"Artista Demo\",\n  \"album\": \"Álbum Demo\",\n  \"description\": \"Canción creada desde Postman\",\n  \"slug\": \"cancion-postman\",\n  \"durationSeconds\": 210,\n  \"releaseYear\": 2026,\n  \"coverUrl\": \"no-cover.svg\",\n  \"tags\": [\"demo\"],\n  \"genreId\": \"{{genreId}}\"\n}"}, "url": "{{baseUrl}}/songs" } },
+        { "name": "Update song", "request": { "method": "PATCH", "auth": {"type":"bearer","bearer":[{"key":"token","value":"{{authToken}}","type":"string"}]}, "header": [{"key":"Content-Type","value":"application/json"}], "body": {"mode":"raw","raw":"{\n  \"description\": \"Canción actualizada desde Postman\"\n}"}, "url": "{{baseUrl}}/songs/{{songId}}" } },
+        { "name": "Delete song", "request": { "method": "DELETE", "auth": {"type":"bearer","bearer":[{"key":"token","value":"{{authToken}}","type":"string"}]}, "url": "{{baseUrl}}/songs/{{songId}}" } }
+      ]
+    },
+    {
+      "name": "Genres",
+      "item": [
+        { "name": "List genres", "request": { "method": "GET", "url": "{{baseUrl}}/genres?limit=10&offset=0" } },
+        { "name": "Get genre", "request": { "method": "GET", "url": "{{baseUrl}}/genres/{{genreId}}" } },
+        { "name": "Create genre", "request": { "method": "POST", "auth": {"type":"bearer","bearer":[{"key":"token","value":"{{authToken}}","type":"string"}]}, "header": [{"key":"Content-Type","value":"application/json"}], "body": {"mode":"raw","raw":"{\n  \"name\": \"Postman Genre\",\n  \"slug\": \"postman-genre\",\n  \"description\": \"Género de prueba\",\n  \"isActive\": true\n}"}, "url": "{{baseUrl}}/genres" } },
+        { "name": "Update genre", "request": { "method": "PATCH", "auth": {"type":"bearer","bearer":[{"key":"token","value":"{{authToken}}","type":"string"}]}, "header": [{"key":"Content-Type","value":"application/json"}], "body": {"mode":"raw","raw":"{\n  \"description\": \"Género actualizado\"\n}"}, "url": "{{baseUrl}}/genres/{{genreId}}" } },
+        { "name": "Delete genre", "request": { "method": "DELETE", "auth": {"type":"bearer","bearer":[{"key":"token","value":"{{authToken}}","type":"string"}]}, "url": "{{baseUrl}}/genres/{{genreId}}" } }
+      ]
+    },
+    {
+      "name": "Playlists",
+      "item": [
+        { "name": "Create playlist", "request": { "method": "POST", "auth": {"type":"bearer","bearer":[{"key":"token","value":"{{authToken}}","type":"string"}]}, "header": [{"key":"Content-Type","value":"application/json"}], "body": {"mode":"raw","raw":"{\n  \"name\": \"Mi playlist Postman\",\n  \"description\": \"Playlist de prueba\",\n  \"isPublic\": false,\n  \"songIds\": [\"{{songId}}\"]\n}"}, "url": "{{baseUrl}}/playlists" } },
+        { "name": "My playlists", "request": { "method": "GET", "auth": {"type":"bearer","bearer":[{"key":"token","value":"{{authToken}}","type":"string"}]}, "url": "{{baseUrl}}/playlists/mine?limit=10&offset=0" } },
+        { "name": "List all playlists admin", "request": { "method": "GET", "auth": {"type":"bearer","bearer":[{"key":"token","value":"{{authToken}}","type":"string"}]}, "url": "{{baseUrl}}/playlists?limit=10&offset=0" } },
+        { "name": "Update playlist", "request": { "method": "PATCH", "auth": {"type":"bearer","bearer":[{"key":"token","value":"{{authToken}}","type":"string"}]}, "header": [{"key":"Content-Type","value":"application/json"}], "body": {"mode":"raw","raw":"{\n  \"name\": \"Playlist actualizada\"\n}"}, "url": "{{baseUrl}}/playlists/{{playlistId}}" } },
+        { "name": "Delete playlist", "request": { "method": "DELETE", "auth": {"type":"bearer","bearer":[{"key":"token","value":"{{authToken}}","type":"string"}]}, "url": "{{baseUrl}}/playlists/{{playlistId}}" } }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        { "name": "List users admin", "request": { "method": "GET", "auth": {"type":"bearer","bearer":[{"key":"token","value":"{{authToken}}","type":"string"}]}, "url": "{{baseUrl}}/users?limit=10&offset=0" } }
+      ]
+    },
+    {
+      "name": "Seed",
+      "item": [
+        { "name": "Execute seed", "request": { "method": "GET", "url": "{{baseUrl}}/seed" } }
+      ]
+    }
+  ]
+}

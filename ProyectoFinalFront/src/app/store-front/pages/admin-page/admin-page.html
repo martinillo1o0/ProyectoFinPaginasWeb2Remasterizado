@@ -1,0 +1,6 @@
+<section class="py-10">
+  <p class="text-sm uppercase tracking-[0.25em] text-secondary">Administración musical</p>
+  <h1 class="mt-2 text-3xl font-bold">Panel de Marti Music</h1>
+  <p class="mt-3 max-w-2xl opacity-70">Esta ruta demuestra el guard funcional por rol. Solo un usuario con rol admin puede acceder.</p>
+  <div class="stats stats-vertical mt-8 shadow lg:stats-horizontal"><div class="stat"><div class="stat-title">Sesión</div><div class="stat-value text-secondary">Activa</div><div class="stat-desc">{{ auth.currentUser()?.fullName }}</div></div><div class="stat"><div class="stat-title">Rol</div><div class="stat-value text-secondary">Admin</div><div class="stat-desc">Gestión de catálogo musical</div></div></div>
+</section>

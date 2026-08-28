@@ -1,0 +1,29 @@
+<div class="navbar sticky top-0 z-30 bg-base-100/95 shadow-sm backdrop-blur">
+  <div class="navbar-start">
+    <div class="dropdown lg:hidden">
+      <button tabindex="0" class="btn btn-ghost" aria-label="Abrir menú">☰</button>
+      <ul tabindex="0" class="menu dropdown-content z-40 mt-3 w-56 rounded-box bg-base-100 p-2 shadow">
+        <li><a routerLink="/genre/pop">Pop</a></li><li><a routerLink="/genre/rock">Rock</a></li><li><a routerLink="/genre/hip-hop">Hip-Hop</a></li><li><a routerLink="/genre/electronica">Electrónica</a></li><li><a routerLink="/genre/regional-mexicano">Regional Mexicano</a></li>
+      </ul>
+    </div>
+    <a routerLink="/" class="btn btn-ghost text-xl font-bold">Marti<span class="text-secondary">Music</span></a>
+  </div>
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1">
+      <li><a routerLink="/genre/pop" routerLinkActive="text-secondary">Pop</a></li>
+      <li><a routerLink="/genre/rock" routerLinkActive="text-secondary">Rock</a></li>
+      <li><a routerLink="/genre/hip-hop" routerLinkActive="text-secondary">Hip-Hop</a></li>
+      <li><a routerLink="/genre/electronica" routerLinkActive="text-secondary">Electrónica</a></li>
+      <li><a routerLink="/genre/regional-mexicano" routerLinkActive="text-secondary">Regional Mexicano</a></li>
+    </ul>
+  </div>
+  <div class="navbar-end gap-1">
+    <a routerLink="/playlist" class="btn btn-ghost">Mi playlist <span class="badge badge-secondary">{{ playlist.totalSongs() }}</span></a>
+    @if (auth.isAuthenticated()) {
+      @if (auth.hasRole('admin')) { <a routerLink="/admin" class="btn btn-ghost">Admin</a> }
+      <div class="dropdown dropdown-end"><button tabindex="0" class="btn btn-ghost">{{ auth.currentUser()?.fullName }}</button><ul tabindex="0" class="menu dropdown-content z-40 mt-3 w-44 rounded-box bg-base-100 p-2 shadow"><li><button (click)="auth.logout()">Cerrar sesión</button></li></ul></div>
+    } @else {
+      <a routerLink="/auth/login" class="btn btn-ghost">Login</a><a routerLink="/auth/register" class="btn btn-secondary btn-sm">Registro</a>
+    }
+  </div>
+</div>

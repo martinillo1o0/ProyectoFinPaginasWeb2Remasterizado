@@ -1,0 +1,53 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: light --default, dark --prefersdark, cupcake;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("/assets/fonts/montserrat-font/Montserrat-Light.ttf") format("truetype");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url("/assets/fonts/montserrat-font/Montserrat-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  src: url("/assets/fonts/montserrat-font/Montserrat-Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --font-sans: "Montserrat", "sans-serif";
+  --animate-fadeIn: fadeIn 0.3s ease-in-out;
+}
+
+body {
+  font-family: var(--font-sans);
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.music-hero {
+  background:
+    radial-gradient(circle at 15% 20%, rgba(168, 85, 247, 0.38), transparent 32%),
+    radial-gradient(circle at 85% 30%, rgba(34, 211, 238, 0.28), transparent 30%),
+    linear-gradient(135deg, rgba(17, 24, 39, 0.96), rgba(49, 46, 129, 0.88));
+  color: white;
+}

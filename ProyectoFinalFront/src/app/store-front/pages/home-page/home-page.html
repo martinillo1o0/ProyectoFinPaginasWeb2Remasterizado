@@ -1,0 +1,42 @@
+<section class="music-hero mb-10 rounded-3xl p-8 md:p-12">
+  <p class="mb-3 text-sm uppercase tracking-[0.3em] opacity-70">Marti Music</p>
+  <h1 class="max-w-3xl text-4xl font-bold md:text-6xl">Descubre música, explora géneros y arma tu propia playlist.</h1>
+  <p class="mt-5 max-w-2xl text-lg opacity-75">Una biblioteca musical creada con Angular, NestJS, TypeORM y MariaDB.</p>
+</section>
+
+@if (songResource.isLoading()) {
+  <div class="flex justify-center py-16"><span class="loading loading-spinner loading-lg text-secondary"></span></div>
+} @else if (songResource.error()) {
+  <div class="alert alert-error">No pudimos cargar las canciones. Comprueba que la API esté disponible.</div>
+} @else {
+  <div class="mb-5 flex items-end justify-between gap-3">
+    <div><h2 class="text-3xl font-bold">Todas las canciones</h2><p class="opacity-60">Explora el catálogo musical</p></div>
+    <span class="badge badge-secondary badge-lg">{{ songResource.value()?.count ?? 0 }} canciones</span>
+  </div>
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    @for (song of songResource.value()?.songs ?? []; track song.id) {
+      <song-card [song]="song" />
+    } @empty {
+      <p>No hay canciones disponibles.</p>
+    }
+  </div>
+
+  @if ((songResource.value()?.pages ?? 0) > 1) {
+    <div class="join my-8 flex justify-center">
+      <button class="btn join-item" [disabled]="page() === 1" (click)="previousPage()">Anterior</button>
+      <button class="btn join-item btn-disabled">{{ page() }} / {{ songResource.value()?.pages }}</button>
+      <button class="btn join-item" [disabled]="page() === songResource.value()?.pages" (click)="nextPage()">Siguiente</button>
+    </div>
+  }
+
+  @defer (on viewport) {
+    <section class="mt-14 rounded-3xl bg-base-200 p-6 md:p-8">
+      <div class="mb-5"><p class="text-sm uppercase tracking-[0.2em] text-secondary">Carga diferida</p><h2 class="text-2xl font-bold">Destacadas de esta página</h2></div>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        @for (song of featuredSongs(); track song.id) { <song-card [song]="song" /> }
+      </div>
+    </section>
+  } @placeholder {
+    <div class="mt-14 h-40 animate-pulse rounded-3xl bg-base-200 p-6">Preparando recomendaciones...</div>
+  }
+}
